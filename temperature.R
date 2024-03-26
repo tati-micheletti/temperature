@@ -28,12 +28,12 @@ defineModule(sim, list(
   ),
   inputObjects = bindrows(
     expectsInput(objectName = "tempt", 
-                 objectClass = NA, 
+                 objectClass = "data.frame", 
                  desc = paste0("data frame with the following columns: `temperature` (in a",
                                "numeric form), `years` (year of the data collection in numeric",
                                "form) and coordinates in  latlong system (two columns, `lat` and",
                                "`long`, indicating latitude and longitude, respectively)"), 
-                 sourceURL = "https://zenodo.org/records/10869730/files/temperature.csv")
+                 sourceURL = "https://zenodo.org/records/10877463/files/temperature.csv")
   ),
   outputObjects = bindrows(
     createsOutput(objectName = "tempRas", objectClass = "SpatRaster", 
@@ -49,8 +49,15 @@ doEvent.temperature = function(sim, eventTime, eventType) {
     eventType,
     init = {
       ### check for more detailed object dependencies:
-      ### (use `checkObject` or similar)
-
+      if (!is(sim$tempt, "data.table"))
+        sim$tempt <- data.table(sim$tempt)
+      
+      if (!all("temperature" %in% names(sim$tempt), 
+               "years" %in% names(sim$tempt),
+               "lat" %in% names(sim$tempt),
+               "long" %in% names(sim$tempt)))
+        stop("Please revise the column names in the temperature data")
+      
       # schedule future event(s)
       sim <- scheduleEvent(sim, start(sim), "temperature", "dataToRaster")
       sim <- scheduleEvent(sim, P(sim)$.plotInitialTime, "temperature", "plotting")
@@ -58,8 +65,8 @@ doEvent.temperature = function(sim, eventTime, eventType) {
     dataToRaster = {
       # do stuff for this event
       sim$tempRas <- convertToRaster(dataSet = sim$tempt, 
-                                       currentTime = time(sim),
-                                       nameRaster = paste0(P(sim)$areaName, ": ", time(sim)))
+                                     currentTime = time(sim),
+                                     nameRaster = paste0(P(sim)$areaName, ": ", time(sim)))
       # schedule future event(s)
       sim <- scheduleEvent(sim, time(sim) + 1, "temperature", "dataToRaster")
     },
@@ -69,8 +76,8 @@ doEvent.temperature = function(sim, eventTime, eventType) {
       plotTemperature(temperatureData = sim$tempt, yearsToPlot = start(sim):time(sim))
       
       # schedule future event(s)
-      sim <- scheduleEvent(sim, time(sim) + 1, "temperature", "plot")
-
+      sim <- scheduleEvent(sim, time(sim) + 1, "temperature", "plotting")
+      
       # ! ----- STOP EDITING ----- ! #
     },
     warning(paste("Undefined event type: \'", current(sim)[1, "eventType", with = FALSE],
@@ -92,11 +99,11 @@ doEvent.temperature = function(sim, eventTime, eventType) {
   # if (!suppliedElsewhere('defaultColor', sim)) {
   #   sim$map <- Cache(prepInputs, extractURL('map')) # download, extract, load file from url in sourceURL
   # }
-
+  
   #cacheTags <- c(currentModule(sim), "function:.inputObjects") ## uncomment this if Cache is being used
   dPath <- asPath(getOption("reproducible.destinationPath", dataPath(sim)), 1)
   message(currentModule(sim), ": using dataPath '", dPath, "'.")
-
+  
   # ! ----- EDIT BELOW ----- ! #
   if (!suppliedElsewhere(object = "tempt", sim = sim)) {
     sim$tempt <- prepInputs(url = extractURL("tempt"),
