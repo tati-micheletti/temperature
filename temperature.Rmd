@@ -56,7 +56,7 @@ The data for version 1.0.0. is available at: https://zenodo.org/records/10885997
 Table \@ref(tab:moduleInputs-temperature) shows the full list of module inputs.
 
 ```{r moduleInputs-temperature, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-df_inputs <- SpaDES.core::moduleInputs("temperature", "C:/Users/Tati/Documents/GitHub")
+df_inputs <- SpaDES.core::moduleInputs("temperature", "~/integratingSpaDESmodules/SpaDES_Modules")
 knitr::kable(df_inputs,
              caption = "List of (ref:temperature) input objects and their description.") %>%
   kableExtra::kable_styling(latex_options = "scale_down", full_width = TRUE)
@@ -65,7 +65,7 @@ knitr::kable(df_inputs,
 Here is a summary of parameters (Table \@ref(tab:moduleParams-temperature))
 
 ```{r moduleParams-temperature, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-df_params <- SpaDES.core::moduleParams("temperature", "C:/Users/Tati/Documents/GitHub")
+df_params <- SpaDES.core::moduleParams("temperature", "~/integratingSpaDESmodules/SpaDES_Modules")
 knitr::kable(df_params, caption = "List of (ref:temperature) parameters and their description.") %>%
   kableExtra::kable_styling(latex_options = "scale_down", full_width = TRUE)
 ```
@@ -79,7 +79,7 @@ The temperature module will run from 2013 to 2032, which are the years for which
 Description of the module outputs (Table \@ref(tab:moduleOutputs-temperature)).
 
 ```{r moduleOutputs-temperature, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
-df_outputs <- SpaDES.core::moduleOutputs("temperature", "C:/Users/Tati/Documents/GitHub")
+df_outputs <- SpaDES.core::moduleOutputs("temperature", "~/integratingSpaDESmodules/SpaDES_Modules")
 knitr::kable(df_outputs, caption = "List of (ref:temperature) outputs and their description.") %>%
   kableExtra::kable_styling(latex_options = "scale_down", full_width = TRUE)
 ```
@@ -93,3 +93,5 @@ and `speciesAbundTempLM` as a way of demonstrating `SpaDES`.
 
 Detailed module creation and functioning can be found at `https://html-preview.github.io/?url=https://github.com/tati-micheletti/EFI_webinar/blob/main/HandsOn.html`
 
+- Please use GitHub issues (https://github.com/tati-micheletti/temperature/issues/new) 
+if you encounter any problems in using this module.
