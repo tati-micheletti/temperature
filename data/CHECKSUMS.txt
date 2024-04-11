@@ -1,0 +1,2 @@
+"file" "checksum" "filesize" "algorithm"
+"temperature.csv" "6045a6e369113509" "8218636" "xxhash64"

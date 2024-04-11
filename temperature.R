@@ -23,6 +23,8 @@ defineModule(sim, list(
   parameters = bindrows(
     defineParameter(".plotInitialTime", "numeric", start(sim), start(sim), end(sim),
                     "Describes the simulation time at which the first plot event should occur."),
+    defineParameter(".plotInterval", "numeric", 10, NA, NA,
+                    "Describes the simulation time interval between plot events."),
     defineParameter("areaName", "character", "Riparian_Woodland_Reserve", NA, NA,
                     "Name for the study area used")
   ),
@@ -73,10 +75,9 @@ doEvent.temperature = function(sim, eventTime, eventType) {
     plotting = {
       # do stuff for this event
       terra::plot(sim$tempRas, main = paste0("Temperature: ", time(sim)))
-      plotTemperature(temperatureData = sim$tempt, yearsToPlot = start(sim):time(sim))
-      
+
       # schedule future event(s)
-      sim <- scheduleEvent(sim, time(sim) + 1, "temperature", "plotting")
+      sim <- scheduleEvent(sim, time(sim) + P(sim)$.plotInterval, "temperature", "plotting")
       
       # ! ----- STOP EDITING ----- ! #
     },
