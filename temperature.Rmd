@@ -45,15 +45,14 @@ download.file(url = "https://img.shields.io/badge/Made%20with-Markdown-1f425f.pn
 
 ### Module summary
 
-Provide a brief summary of what the module does / how to use the module.
-
-Module documentation should be written so that others can use your module.
-This is a template for module documentation, and should be changed to reflect your module.
+The temperature module will run from 2013 to 2032, which are the years for which we have data. 
+The module simply (1) downloads data, (2) converts it to a raster, and (3) plots the data.
 
 ### Module inputs and parameters
 
-Describe input data required by the module and how to obtain it (e.g., directly from online sources or supplied by other modules)
-If `sourceURL` is specified, `downloadData("temperature", "C:/Users/Tati/Documents/GitHub")` may be sufficient.
+The module requires only a data frame with the following columns: `temperature` (in anumeric form), `years` (year of the data collection in numericform) and coordinates in  latlong system (two columns, `lat` and`long`, indicating latitude and longitude, respectively).
+The data for version 1.0.0. is available at: https://zenodo.org/records/10885997/files/temperature.csv
+
 Table \@ref(tab:moduleInputs-temperature) shows the full list of module inputs.
 
 ```{r moduleInputs-temperature, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
@@ -63,8 +62,7 @@ knitr::kable(df_inputs,
   kableExtra::kable_styling(latex_options = "scale_down", full_width = TRUE)
 ```
 
-Provide a summary of user-visible parameters (Table \@ref(tab:moduleParams-temperature))
-
+Here is a summary of parameters (Table \@ref(tab:moduleParams-temperature))
 
 ```{r moduleParams-temperature, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 df_params <- SpaDES.core::moduleParams("temperature", "C:/Users/Tati/Documents/GitHub")
@@ -74,15 +72,7 @@ knitr::kable(df_params, caption = "List of (ref:temperature) parameters and thei
 
 ### Events
 
-Describe what happens for each event type.
-
-### Plotting
-
-Write what is plotted.
-
-### Saving
-
-Write what is saved.
+The temperature module will run from 2013 to 2032, which are the years for which we have data AND temperature forecasts. Before the simulation, the module will also download data, and then confirm that this data has the expected format. It will convert the table of coordinates, years, and temperatures to a raster, and append it to a list that will contain rasters for all the years. The module will then plot the raster created. This will also be done for every year data is available.
 
 ### Module outputs
 
@@ -96,8 +86,10 @@ knitr::kable(df_outputs, caption = "List of (ref:temperature) outputs and their 
 
 ### Links to other modules
 
-Describe any anticipated linkages to other modules, such as modules that supply input data or do post-hoc analysis.
+This module is stand-alone, but has been created to be ran with the module `speciesAbundance` 
+and `speciesAbundTempLM` as a way of demonstrating `SpaDES`.
 
 ### Getting help
 
--   provide a way for people to obtain help (e.g., module repository issues page)
+Detailed module creation and functioning can be found at `https://html-preview.github.io/?url=https://github.com/tati-micheletti/EFI_webinar/blob/main/HandsOn.html`
+
